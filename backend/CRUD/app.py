@@ -115,4 +115,25 @@ def add_expense(expense: dict):
         
     expenses.append(expense)
     return JSONResponse(status_code=200, content={"message": "successfully added expense"})
+
+
+# DELETE
+@app.delete("/expense/{expense_id}")
+def delete_expense(expense_id: int):
+    for i, expense in enumerate(expenses):
+        current_expense_id = expense["expense_id"]
+        is_present = current_expense_id == expense_id
+
+        if is_present:
+            del expenses[i]
+            return JSONResponse(status_code=200, content={"message": "successfully deleted expense"})
+    
+    raise HTTPException(status_code=404, detail="expense not found")
+
+# PUT
+@app.put('/expense/{expense_id}')
+def update_expense(expense_id: int, details_to_update)
+
+
+
         
