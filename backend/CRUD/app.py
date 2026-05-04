@@ -51,6 +51,7 @@ Python + FastAPI'''
         status
 '''
 
+import logging
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import JSONResponse
 
@@ -132,8 +133,19 @@ def delete_expense(expense_id: int):
 
 # PUT
 @app.put('/expense/{expense_id}')
-def update_expense(expense_id: int, details_to_update)
+def update_expense(expense_id: int, details_to_update: dict):
+    if not details_to_update:
+        raise HTTPException(status_code=400, detail="details to update not provided")
+    
+    for i, expense in enumerate(expenses):
+        if expense["expense_id"] == expense_id:
+            for key, value in details_to_update.items():
+                expenses[i][key] = value
 
+    
+        return JSONResponse(status_code=200, content={"message": f"Expenses updated correctly, current expenses: {expenses}"})
+
+    return HTTPException(status_code=404, detail="details provided are not correct")
 
 
         
